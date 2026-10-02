@@ -40,6 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(section);
   });
 
+  const lazyVideo = document.querySelector(".lazy-video");
+  if (lazyVideo) {
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            lazyVideo.src = lazyVideo.dataset.src;
+            lazyVideo.play().catch(() => {});
+            videoObserver.unobserve(lazyVideo);
+          }
+        });
+      },
+      { rootMargin: "200px" }
+    );
+    videoObserver.observe(lazyVideo);
+  }
+
   const skyEls = Array.from(document.querySelectorAll(".hero-sky, .section-sky"));
   const fadeTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
     .map((section) => ({ section, overlay: section.querySelector(":scope > .scroll-fade") }))
