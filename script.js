@@ -56,38 +56,4 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     videoObserver.observe(lazyVideo);
   }
-
-  // Backgrounds stay static (no scroll-linked movement) — scroll-driven JS
-  // parallax proved unreliable on mobile and too heavy on desktop. Only the
-  // darkening fade is scroll-linked, and it's cheap: one rect read + one
-  // opacity write per section, no transforms.
-  const fadeTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
-    .map((section) => ({ section, overlay: section.querySelector(":scope > .scroll-fade") }))
-    .filter((t) => t.overlay);
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!reduceMotion && fadeTargets.length) {
-    let ticking = false;
-
-    const updateFades = () => {
-      const rects = fadeTargets.map(({ section }) => section.getBoundingClientRect());
-
-      fadeTargets.forEach(({ overlay }, i) => {
-        const rect = rects[i];
-        overlay.style.opacity = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
-      });
-
-      ticking = false;
-    };
-
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(updateFades);
-        ticking = true;
-      }
-    }, { passive: true });
-
-    updateFades();
-  }
 });
