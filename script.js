@@ -57,39 +57,25 @@ document.addEventListener("DOMContentLoaded", () => {
     videoObserver.observe(lazyVideo);
   }
 
-  const scrollTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
-    .map((section) => ({
-      section,
-      sky: section.querySelector(":scope > .hero-sky, :scope > .section-sky"),
-      overlay: section.querySelector(":scope > .scroll-fade"),
-    }))
-    .filter((t) => t.sky || t.overlay);
+  // Backgrounds stay static (no scroll-linked movement) — scroll-driven JS
+  // parallax proved unreliable on mobile and too heavy on desktop. Only the
+  // darkening fade is scroll-linked, and it's cheap: one rect read + one
+  // opacity write per section, no transforms.
+  const fadeTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
+    .map((section) => ({ section, overlay: section.querySelector(":scope > .scroll-fade") }))
+    .filter((t) => t.overlay);
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!reduceMotion && scrollTargets.length) {
-    const parallaxFactor = 0.3;
+  if (!reduceMotion && fadeTargets.length) {
     let ticking = false;
 
-    const updateScrollEffects = () => {
-      // Read phase: measure every section once before writing anything,
-      // so none of these reads are forced to flush a pending style write.
-      const rects = scrollTargets.map(({ section }) => section.getBoundingClientRect());
+    const updateFades = () => {
+      const rects = fadeTargets.map(({ section }) => section.getBoundingClientRect());
 
-      // Write phase: apply all style changes using the cached measurements.
-      scrollTargets.forEach(({ sky, overlay }, i) => {
+      fadeTargets.forEach(({ overlay }, i) => {
         const rect = rects[i];
-
-        if (sky) {
-          const buffer = rect.height * 0.2;
-          const raw = -rect.top * parallaxFactor;
-          const clamped = Math.max(-buffer, Math.min(buffer, raw));
-          sky.style.transform = `translateY(${clamped}px)`;
-        }
-
-        if (overlay) {
-          overlay.style.opacity = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
-        }
+        overlay.style.opacity = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
       });
 
       ticking = false;
@@ -97,11 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("scroll", () => {
       if (!ticking) {
-        requestAnimationFrame(updateScrollEffects);
+        requestAnimationFrame(updateFades);
         ticking = true;
       }
     }, { passive: true });
 
-    updateScrollEffects();
+    updateFades();
   }
 });
