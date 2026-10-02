@@ -1,0 +1,82 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const langButtons = document.querySelectorAll(".lang-btn");
+  const i18nEls = document.querySelectorAll("[data-i18n-hu]");
+  const storedLang = localStorage.getItem("vulome-lang");
+  const initialLang = storedLang === "en" || storedLang === "hu" ? storedLang : "en";
+
+  const setLang = (lang) => {
+    i18nEls.forEach((el) => {
+      el.textContent = lang === "en" ? el.dataset.i18nEn : el.dataset.i18nHu;
+    });
+    langButtons.forEach((btn) => {
+      btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+    });
+    document.documentElement.lang = lang;
+    localStorage.setItem("vulome-lang", lang);
+  };
+
+  langButtons.forEach((btn) => {
+    btn.addEventListener("click", () => setLang(btn.dataset.lang));
+  });
+
+  setLang(initialLang);
+
+  const sections = document.querySelectorAll(".about, .clip, .game, .follow");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  sections.forEach((section) => {
+    section.classList.add("pre-reveal");
+    observer.observe(section);
+  });
+
+  const skyEls = Array.from(document.querySelectorAll(".hero-sky, .section-sky"));
+  const fadeTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
+    .map((section) => ({ section, overlay: section.querySelector(":scope > .scroll-fade") }))
+    .filter((t) => t.overlay);
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!reduceMotion && (skyEls.length || fadeTargets.length)) {
+    const parallaxFactor = 0.3;
+    let ticking = false;
+
+    const updateScrollEffects = () => {
+      skyEls.forEach((sky) => {
+        const parent = sky.parentElement;
+        const parentRect = parent.getBoundingClientRect();
+        const buffer = parent.offsetHeight * 0.2;
+        const raw = -parentRect.top * parallaxFactor;
+        const clamped = Math.max(-buffer, Math.min(buffer, raw));
+        sky.style.transform = `translateY(${clamped}px)`;
+      });
+
+      fadeTargets.forEach(({ section, overlay }) => {
+        const rect = section.getBoundingClientRect();
+        const progress = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
+        overlay.style.opacity = progress;
+      });
+
+      ticking = false;
+    };
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollEffects);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateScrollEffects();
+  }
+});

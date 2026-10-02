@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VULOME — DOGFIGHT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanline-overlay" aria-hidden="true"></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-sky"></div>
+  <div class="hero-stars" aria-hidden="true"></div>
+  <nav class="topnav">
+    <span class="topnav-brand">VULOME</span>
+    <div class="lang-switch" role="group" aria-label="Language / Nyelv">
+      <button type="button" class="lang-btn" data-lang="hu" aria-pressed="false" aria-label="Magyar">🇭🇺</button>
+      <button type="button" class="lang-btn" data-lang="en" aria-pressed="true" aria-label="English">🇬🇧</button>
+    </div>
+    <span class="topnav-hi">HI-SCORE <strong>026769</strong></span>
+  </nav>
+
+  <div class="hero-content">
+    <p class="hero-kicker" data-i18n-hu="&gt; DOBJ BE EGY ÉRMÉT_" data-i18n-en="&gt; INSERT COIN TO CONTINUE_">&gt; INSERT COIN TO CONTINUE_</p>
+    <h1 class="hero-title">
+      <span class="title-vulome">VULOME</span>
+      <span class="title-dogfight">DOGFIGHT</span>
+    </h1>
+    <p class="hero-tagline">SIERRA · TANGO · WHISKEY · OSCAR · FOXTROT · YANKEE · ALPHA</p>
+    <div class="hero-cta">
+      <a href="#clip" class="btn btn-primary" data-i18n-hu="▶ NÉZD MEG A VIDEÓT" data-i18n-en="▶ WATCH THE VIDEO">▶ WATCH THE VIDEO</a>
+      <a href="#game" class="btn btn-secondary" data-i18n-hu="🎮 JÁTSSZ!" data-i18n-en="🎮 PLAY THE GAME">🎮 PLAY THE GAME</a>
+    </div>
+  </div>
+
+  <div class="hero-jet" aria-hidden="true">▲</div>
+  <div class="scroll-fade" aria-hidden="true"></div>
+</header>
+
+<main>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="section-sky about-sky"></div>
+    <div class="section-inner about-inner">
+      <img class="about-portrait" src="assets/band-portrait.png" alt="VULOME" loading="lazy">
+      <div class="about-copy">
+        <h2 class="section-title section-title-left" data-i18n-hu="JÁTÉKOS 1 — VULOME" data-i18n-en="PLAYER 1 — VULOME">PLAYER 1 — VULOME</h2>
+        <div class="player-names">
+          <p class="about-text" data-i18n-hu="Ponokló Imre" data-i18n-en="Imre Ponokló">Imre Ponokló</p>
+          <p class="about-text" data-i18n-hu="Póka Zalán" data-i18n-en="Zalán Póka">Zalán Póka</p>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-fade" aria-hidden="true"></div>
+  </section>
+
+  <!-- CLIP -->
+  <section class="clip" id="clip">
+    <div class="section-inner">
+      <h2 class="section-title" data-i18n-hu="SZINT 1 — A VIDEÓ" data-i18n-en="STAGE 1 — THE VIDEO">STAGE 1 — THE VIDEO</h2>
+      <a class="screen-frame video-link" href="https://www.youtube.com/watch?v=dqW7rInZ1rQ" target="_blank" rel="noopener">
+        <div class="video-wrap">
+          <video
+            src="assets/clip-loop.mp4"
+            poster="assets/clip-poster.jpg"
+            autoplay muted loop playsinline
+            aria-hidden="true">
+          </video>
+          <div class="video-overlay">
+            <span class="video-overlay-btn" data-i18n-hu="▶ NÉZD MEG A YOUTUBE-ON" data-i18n-en="▶ WATCH ON YOUTUBE">▶ WATCH ON YOUTUBE</span>
+          </div>
+        </div>
+      </a>
+      <p class="clip-caption" data-i18n-hu="Nézd meg, és iratkozz fel!" data-i18n-en="Watch and subscribe!">Watch and subscribe!</p>
+      <p class="clip-credits" data-i18n-hu="Kreatív munka &amp; vágás: Raffai Norbert · AI-támogatott vizuál" data-i18n-en="Creative work &amp; editing: Norbert Raffai · AI-assisted visuals">Creative work &amp; editing: Norbert Raffai · AI-assisted visuals</p>
+    </div>
+    <div class="scroll-fade" aria-hidden="true"></div>
+  </section>
+
+  <!-- GAME -->
+  <section class="game" id="game">
+    <div class="section-sky game-sky"></div>
+    <div class="section-inner">
+      <h2 class="section-title" data-i18n-hu="SZINT 2 — A JÁTÉK" data-i18n-en="STAGE 2 — THE GAME">STAGE 2 — THE GAME</h2>
+      <p class="game-text"
+        data-i18n-hu="A track-hez készült egy böngészőben játszható arcade repülős játék is. Irányítsd a vadászgépet, lődd a célpontokat, és élj át egy valódi 16-bites DOGFIGHTot."
+        data-i18n-en="An in-browser playable arcade flight game was also made for the track. Pilot the fighter jet, hit your targets, and live through a real 16-bit DOGFIGHT."
+      >
+        An in-browser playable arcade flight game was also made for the track.
+        Pilot the fighter jet, hit your targets, and live through a real
+        16-bit DOGFIGHT.
+      </p>
+      <div class="screen-frame game-frame">
+        <div class="game-wrap">
+          <iframe
+            src="https://dogfight-game.netlify.app"
+            title="DOGFIGHT — the game"
+            loading="lazy"
+            allow="gamepad; fullscreen"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="game-cta">
+        <a href="https://dogfight-game.netlify.app" target="_blank" rel="noopener" class="btn btn-primary"
+          data-i18n-hu="🕹 JÁTSZD TELJES KÉPERNYŐN" data-i18n-en="🕹 PLAY FULLSCREEN">
+          🕹 PLAY FULLSCREEN
+        </a>
+      </div>
+    </div>
+    <div class="scroll-fade" aria-hidden="true"></div>
+  </section>
+
+  <!-- FOLLOW -->
+  <section class="follow" id="follow">
+    <div class="section-sky follow-sky"></div>
+    <div class="section-inner">
+      <h2 class="section-title" data-i18n-hu="FOLYTATOD? — KÖVESS MINKET" data-i18n-en="CONTINUE? — FOLLOW VULOME">CONTINUE? — FOLLOW VULOME</h2>
+      <div class="social-grid">
+        <a class="social-card" href="https://www.youtube.com/@vulomeofficial" target="_blank" rel="noopener">
+          <span class="social-icon">▶</span>
+          <span class="social-label">YOUTUBE</span>
+        </a>
+        <a class="social-card" href="https://open.spotify.com/artist/19u1iqFu7HTxr8aJrSulQB" target="_blank" rel="noopener">
+          <span class="social-icon">♪</span>
+          <span class="social-label">SPOTIFY</span>
+        </a>
+        <a class="social-card" href="https://www.facebook.com/Vulome" target="_blank" rel="noopener">
+          <span class="social-icon">f</span>
+          <span class="social-label">FACEBOOK</span>
+        </a>
+        <a class="social-card" href="https://www.instagram.com/vulomeofficial/" target="_blank" rel="noopener">
+          <span class="social-icon">◍</span>
+          <span class="social-label">INSTAGRAM</span>
+        </a>
+        <a class="social-card" href="https://www.tiktok.com/@vulomeofficial" target="_blank" rel="noopener">
+          <span class="social-icon">♫</span>
+          <span class="social-label">TIKTOK</span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-fade" aria-hidden="true"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>MUSIC, COMPOSITION &amp; CONCEPT BY VULOME</p>
+  <p>VISUALS: RAFFAI NORBERT · AI-ASSISTED GENERATION</p>
+  <p class="footer-copy">© 2026 TEAM VULOME — GAME OVER? INSERT COIN.</p>
+  <div class="scroll-fade" aria-hidden="true"></div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
