@@ -57,31 +57,39 @@ document.addEventListener("DOMContentLoaded", () => {
     videoObserver.observe(lazyVideo);
   }
 
-  const skyEls = Array.from(document.querySelectorAll(".hero-sky, .section-sky"));
-  const fadeTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
-    .map((section) => ({ section, overlay: section.querySelector(":scope > .scroll-fade") }))
-    .filter((t) => t.overlay);
+  const scrollTargets = Array.from(document.querySelectorAll(".hero, .about, .clip, .game, .follow, .site-footer"))
+    .map((section) => ({
+      section,
+      sky: section.querySelector(":scope > .hero-sky, :scope > .section-sky"),
+      overlay: section.querySelector(":scope > .scroll-fade"),
+    }))
+    .filter((t) => t.sky || t.overlay);
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (!reduceMotion && (skyEls.length || fadeTargets.length)) {
+  if (!reduceMotion && scrollTargets.length) {
     const parallaxFactor = 0.3;
     let ticking = false;
 
     const updateScrollEffects = () => {
-      skyEls.forEach((sky) => {
-        const parent = sky.parentElement;
-        const parentRect = parent.getBoundingClientRect();
-        const buffer = parent.offsetHeight * 0.2;
-        const raw = -parentRect.top * parallaxFactor;
-        const clamped = Math.max(-buffer, Math.min(buffer, raw));
-        sky.style.transform = `translateY(${clamped}px)`;
-      });
+      // Read phase: measure every section once before writing anything,
+      // so none of these reads are forced to flush a pending style write.
+      const rects = scrollTargets.map(({ section }) => section.getBoundingClientRect());
 
-      fadeTargets.forEach(({ section, overlay }) => {
-        const rect = section.getBoundingClientRect();
-        const progress = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
-        overlay.style.opacity = progress;
+      // Write phase: apply all style changes using the cached measurements.
+      scrollTargets.forEach(({ sky, overlay }, i) => {
+        const rect = rects[i];
+
+        if (sky) {
+          const buffer = rect.height * 0.2;
+          const raw = -rect.top * parallaxFactor;
+          const clamped = Math.max(-buffer, Math.min(buffer, raw));
+          sky.style.transform = `translateY(${clamped}px)`;
+        }
+
+        if (overlay) {
+          overlay.style.opacity = rect.top < 0 ? Math.min(-rect.top / rect.height, 1) : 0;
+        }
       });
 
       ticking = false;
