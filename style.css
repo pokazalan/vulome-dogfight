@@ -97,14 +97,19 @@ a { color: inherit; text-decoration: none; }
 .topnav {
   position: relative;
   z-index: 2;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  column-gap: 12px;
   align-items: center;
   padding: 24px 32px;
   font-family: var(--font-display);
   font-size: 12px;
   color: var(--yellow);
 }
+
+.topnav-brand { justify-self: start; }
+.lang-switch { justify-self: center; }
+.topnav-hi { justify-self: end; }
 
 .topnav-hi strong { color: var(--white); }
 
