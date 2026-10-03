@@ -56,4 +56,38 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     videoObserver.observe(lazyVideo);
   }
+
+  // Hover SFX: synthesized 8-bit "blip" (no audio file needed) for the
+  // moving buttons/cards. Desktop-only (real hover + mouse), since the
+  // effect only makes sense where hovering is a deliberate gesture.
+  const supportsHoverSfx = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (supportsHoverSfx) {
+    let audioCtx;
+    const unlockAudio = () => {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    };
+    document.addEventListener("pointerdown", unlockAudio, { once: true });
+    document.addEventListener("keydown", unlockAudio, { once: true });
+
+    const playHoverBlip = () => {
+      if (!audioCtx || audioCtx.state !== "running") return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.06);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.09, now + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    };
+
+    document.querySelectorAll(".btn, .lang-btn, .social-card, .video-link").forEach((el) => {
+      el.addEventListener("mouseenter", playHoverBlip);
+    });
+  }
 });
