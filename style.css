@@ -109,7 +109,7 @@ a { color: inherit; text-decoration: none; }
 
 .topnav-brand { justify-self: start; }
 .lang-switch { justify-self: center; }
-.topnav-hi { justify-self: end; }
+.topnav-hi { justify-self: end; text-align: right; }
 
 .topnav-hi strong { color: var(--white); }
 
