@@ -430,7 +430,16 @@ a { color: inherit; text-decoration: none; }
   width: fit-content;
   max-width: 100%;
   margin: 0 auto 24px;
+  text-align: center;
   animation: blink 1.4s steps(1) infinite;
+}
+
+.klipszemle-text-compact { display: none; }
+
+@media (max-width: 480px) {
+  .klipszemle-btn { font-size: 10px; }
+  .klipszemle-text-full { display: none; }
+  .klipszemle-text-compact { display: inline; }
 }
 
 .clip-caption {
