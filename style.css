@@ -433,7 +433,7 @@ a { color: inherit; text-decoration: none; }
   margin: 10px auto 30px;
   text-align: center;
   background: var(--red);
-  color: var(--white);
+  color: var(--yellow);
   animation: blink 1.4s steps(1) infinite;
 }
 
@@ -443,10 +443,10 @@ a { color: inherit; text-decoration: none; }
   inset: 5px;
   pointer-events: none;
   background-image:
-    repeating-linear-gradient(to right, var(--white) 0 24px, transparent 24px 40px),
-    repeating-linear-gradient(to right, var(--white) 0 24px, transparent 24px 40px),
-    repeating-linear-gradient(to bottom, var(--white) 0 24px, transparent 24px 40px),
-    repeating-linear-gradient(to bottom, var(--white) 0 24px, transparent 24px 40px);
+    repeating-linear-gradient(to right, var(--yellow) 0 24px, transparent 24px 40px),
+    repeating-linear-gradient(to right, var(--yellow) 0 24px, transparent 24px 40px),
+    repeating-linear-gradient(to bottom, var(--yellow) 0 24px, transparent 24px 40px),
+    repeating-linear-gradient(to bottom, var(--yellow) 0 24px, transparent 24px 40px);
   background-position: top left, bottom left, top left, top right;
   background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
   background-size: 100% 7px, 100% 7px, 7px 100%, 7px 100%;
