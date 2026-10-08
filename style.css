@@ -453,7 +453,7 @@ a { color: inherit; text-decoration: none; }
 .klipszemle-text-compact { display: none; }
 
 @media (max-width: 480px) {
-  .klipszemle-btn { font-size: 10px; }
+  .klipszemle-btn { font-size: 9px; }
   .klipszemle-text-full { display: none; }
   .klipszemle-text-compact { display: inline; }
 }
