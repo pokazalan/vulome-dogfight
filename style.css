@@ -425,6 +425,14 @@ a { color: inherit; text-decoration: none; }
   .video-overlay-btn { font-size: 10px; padding: 10px 12px; }
 }
 
+.klipszemle-btn {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 24px;
+  animation: blink 1.4s steps(1) infinite;
+}
+
 .clip-caption {
   font-size: 22px;
   text-align: center;
