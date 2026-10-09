@@ -1,4 +1,4 @@
-# TODO / Állapot — 2026-10-03
+# TODO / Állapot — 2026-10-09
 
 ## Munkafolyamat (FONTOS, mindig tartsd be)
 Zalán kérte, hogy a Netlify build-credit fogyasztás miatt **mostantól csak helyben
@@ -21,7 +21,23 @@ a Netlify-t" / hasonló.
 - Élő oldal (utoljára ezen az állapoton): https://vulome-dogfight.netlify.app
   — ez NEM tartalmazza a legújabb, még nem pusholt változtatásokat.
 
-## Nemrég lezárt dolgok (helyben commitolva, Netlify-ra NINCS pusholva)
+## Nemrég lezárt dolgok (helyben, Netlify-ra NINCS pusholva)
+- **Stage 2 letöltés gombok**: a játék szekcióban (`#game`) a "PLAY FULLSCREEN" gomb alatt
+  most egy "...or download and install it on your own device:" sor + 3 gomb
+  (WINDOWS / macOS / ANDROID). A natív csomagok egy külön GitHub repóban vannak:
+  https://github.com/pokazalan/dogfight-game-releases (Release v1.0.0) — ez a
+  landing page-től FÜGGETLEN repo, a push oda NEM érinti a Netlify-t.
+  A natív build forrása (Electron desktop + Capacitor Android projekt, és a
+  letöltött/összeszerelt build eszközök) itt vannak: `/Users/macbook/Claude/dogfight-native/`.
+  A játék maga egyetlen önálló HTML fájl (vanilla JS + Canvas, nincs külső
+  framework), + 1 db `zene.mp3` — ezt helyi fájlként csomagoltuk be mindhárom
+  natív appba (nem a `rafixhu.workers.dev`-et hívják futásidőben).
+  Windows/Mac buildek **aláíratlanok** (nincs Apple Developer / Windows
+  code-signing cert) — ez Zalán döntése alapján szándékos, a felhasználóknak
+  egyszer át kell kattintaniuk egy rendszerfigyelmeztetésen. Az Android APK
+  debug-signed (nincs külön release keystore).
+
+## Korábban lezárt dolgok (helyben commitolva, Netlify-ra NINCS pusholva)
 - **Follow gombok háttere**: a korábbi animált csík-háttér Zalán valódi
   Chrome-jában soha nem mozgott ténylegesen (a `getAnimations()` szerint futott,
   de nem rajzolódott újra — feltehetően Chrome/GPU-kompozitálási hiba
