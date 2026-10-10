@@ -1,27 +1,41 @@
-# TODO / Állapot — 2026-10-09
+# TODO / Állapot — 2026-10-10
 
 ## Munkafolyamat (FONTOS, mindig tartsd be)
-Zalán kérte, hogy a Netlify build-credit fogyasztás miatt **mostantól csak helyben
-szerkesztünk és tesztelünk**. NE pusholj a GitHub-ra (ami automatikusan Netlify
-deployt indít), amíg Zalán kifejezetten nem mondja: "mehet élesbe" / "frissítsd
-a Netlify-t" / hasonló.
+Zalán kifejezetten kérte (2026-10-10): **semmit, soha nem szabad élesbe
+(production-ba) tolni, amíg ő nem mondja konkrétan, hogy "mehet élesbe"**.
+Ez MINDEN deploy-útvonalra vonatkozik — nemcsak GitHub push-ra, hanem a
+Cloudflare `wrangler deploy`-ra is (ami NEM GitHub-hoz kötött, kézi parancs,
+szóval külön kell rá figyelni, nincs automata fék). Helyben mindig szabad
+szerkeszteni/tesztelni, csak a tényleges publikálás előtt kell megállni és
+megkérdezni / várni a jóváhagyást.
 
-- Helyi teszt szerver indítása: `preview_start` a "vulome-dogfight" launch.json
+- **Hosting (2026-10-10 óta)**: a site elköltözött Netlify-ról Cloudflare
+  Workers (static assets) alá, mert a Netlify ingyenes build-credit kerete
+  (300) 75%-on elfogyott puszta fejlesztés közben. A Netlify site
+  (vulome-dogfight.netlify.app) törölve lett, nem létezik többé.
+- Élő oldal: **https://dogfight.vulome.workers.dev**
+- Deploy forrás: `/Users/macbook/Claude/dogfight-native/cf-pages-publish/`
+  (csak a landing page szükséges fájljai: `index.html`, `style.css`,
+  `script.js`, `assets/`). Deploy parancs onnan: `npx wrangler deploy`
+  (Cloudflare fiók: Zalán saját fiókja, workers.dev alcím: `vulome`).
+  A Cloudflare deploy NEM kötött GitHub push-hoz, tehát helyi commit/push
+  bármikor biztonságos — csak a `wrangler deploy` maga számít élesítésnek.
+- Helyi teszt szerver indítása (a forrás `vulome-dogfight/` repóban, nem a
+  cf-pages-publish mappában): `preview_start` a "vulome-dogfight" launch.json
   configgal → http://localhost:8411
 - A szerver a `vulome-dogfight/devserver.py`-t futtatja (nem a sima
   `python -m http.server`-t), mert az nem küldött no-cache fejlécet, és ez
   ismétlődő, nehezen diagnosztizálható "a régi verzió jelenik meg" hibákat
   okozott. Ez minden fájltípusra (CSS, JS, képek) vonatkozik.
 - **Cache-busting szabály**: az `index.html`-ben a stylesheet és script linkek
-  verziózva vannak (`style.css?v=5`, `script.js?v=1`). Minden alkalommal, amikor
-  módosítod a style.css-t vagy script.js-t, **növeld a `?v=` számot** az
+  verziózva vannak (`style.css?v=18`, `script.js?v=2`). Minden alkalommal,
+  amikor módosítod a style.css-t vagy script.js-t, **növeld a `?v=` számot** az
   index.html-ben, különben a böngésző (akár Zalán saját Chrome-ja is, nem csak a
   Claude Browser pane) a régi verziót mutathatja.
-- GitHub repo: https://github.com/pokazalan/vulome-dogfight (Zalán saját fiókja)
-- Élő oldal: https://vulome-dogfight.netlify.app — 2026-10-09-én Zalán mondta
-  "mehet élesbe", azóta ez az állapot éles (lásd lent, d179df3 commitig).
+- GitHub repo (verziókövetés, forrás — FÜGGETLEN a hosting-tól):
+  https://github.com/pokazalan/vulome-dogfight (Zalán saját fiókja)
 
-## Legutóbb élesített dolgok (Netlify-on élnek, 2026-10-09 óta)
+## Legutóbb élesített dolgok (élnek a jelenlegi Cloudflare oldalon)
 - **Stage 2 letöltés gombok**: a játék szekcióban (`#game`) a "PLAY FULLSCREEN" gomb alatt
   egy "...or download and install it on your own device:" sor + 4 gomb
   (WINDOWS / macOS Intel / macOS Apple Silicon / ANDROID), mindegyik közvetlenül
